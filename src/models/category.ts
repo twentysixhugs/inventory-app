@@ -1,0 +1,26 @@
+import { Schema, model } from 'mongoose';
+
+interface ICategory {
+  name: string;
+  description: string;
+  url: string;
+}
+
+const categorySchema = new Schema<ICategory>({
+  name: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+});
+
+categorySchema.virtual('url').get(function () {
+  return `/catalog/categories/${this._id}`;
+});
+
+const Category = model<ICategory>('Category', categorySchema);
+
+export default Category;
