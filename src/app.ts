@@ -1,3 +1,5 @@
+import { ResponseError } from './types';
+
 import * as createError from 'http-errors';
 import * as express from 'express';
 import * as path from 'path';
