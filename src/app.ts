@@ -3,15 +3,19 @@ import * as express from 'express';
 import * as path from 'path';
 import * as cookieParser from 'cookie-parser';
 import * as logger from 'morgan';
+import mongoose from 'mongoose';
 
 import indexRouter from './routes/index';
 
 const app = express();
 
-interface ResponseError {
-  status?: number;
-  message?: string;
-}
+// database setup
+const mongoDB: string = String(process.env.MONGODBURI);
+mongoose.connect(mongoDB);
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
