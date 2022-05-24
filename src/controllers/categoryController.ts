@@ -6,7 +6,7 @@ import async from 'async';
 import { ControllerFn } from 'src/types';
 
 /* Show all categories */
-const categoryList: ControllerFn = (req, res, next) => {
+const allCategories: ControllerFn = (req, res, next) => {
   res.send('Not implemented: categoryList');
 };
 
@@ -44,7 +44,7 @@ const categoryUpdatePOST: ControllerFn = (req, res, next) => {
 };
 
 export {
-  categoryList,
+  allCategories,
   categoryItems,
   categoryCreateGET,
   categoryCreatePOST,
