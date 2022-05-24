@@ -8,6 +8,7 @@ import * as logger from 'morgan';
 import mongoose from 'mongoose';
 
 import indexRouter from './routes/index';
+import catalogRouter from './routes/catalog';
 
 const app = express();
 
@@ -29,7 +30,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// routers setup
 app.use('/', indexRouter);
+app.use('/catalog', catalogRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
