@@ -98,7 +98,7 @@ function createItems(outerAsyncOperationCallback: AsyncFunctionCallback) {
       function (callback) {
         itemCreate(
           {
-            name: 'Dark chocolate!!!!!!!!!!!!!!!!!',
+            name: 'Dark chocolate',
             description: 'Made up of pure cocoa',
             price: 26,
             category: categories[0],
