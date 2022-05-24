@@ -2,8 +2,9 @@ import Item, { IItem } from '../models/item';
 import Category, { ICategory } from '../models/category';
 
 import async from 'async';
+import { body, validationResult } from 'express-validator';
 
-import { ControllerFn } from 'src/types';
+import { ControllerFn, ResponseError } from 'src/types';
 
 /* Show all categories */
 const allCategories: ControllerFn = (req, res, next) => {
@@ -49,13 +50,47 @@ const categoryItems: ControllerFn = (req, res, next) => {
 
 /* Get form for creating a new category */
 const categoryCreateGET: ControllerFn = (req, res, next) => {
-  res.send('Not implemented: categoryCreateGET');
+  res.render('newCategory');
 };
 
 /* Handle POST with form data for creating a new category */
-const categoryCreatePOST: ControllerFn = (req, res, next) => {
-  res.send('Not implemented: categoryCreatePOST');
-};
+const categoryCreatePOST = (() => {
+  const mainRequestHandler: ControllerFn = (req, res, next) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      console.log(errors);
+      const err: ResponseError = new Error('403: Validation error');
+      err.status = 403;
+      throw err;
+    }
+
+    const category = new Category({
+      name: req.body.name,
+      description: req.body.description,
+    });
+
+    category.save((err) => {
+      if (err) {
+        return next(err);
+      }
+
+      res.redirect(category.url || '/catalog/category/all');
+    });
+  };
+
+  return [
+    body('name', 'Name must not be empty')
+      .trim()
+      .isLength({ min: 1 })
+      .escape(),
+    body('description', 'Description must not be empty')
+      .trim()
+      .escape()
+      .isLength({ min: 1 }),
+    mainRequestHandler,
+  ];
+})();
 
 const categoryDeleteGET: ControllerFn = (req, res, next) => {
   res.send('Not implemented: categoryDeleteGET');
