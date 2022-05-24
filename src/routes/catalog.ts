@@ -4,8 +4,18 @@ import * as itemController from '../controllers/itemController';
 
 const router = express.Router();
 
+/* Redirects */
+
 router.get('/', (req, res, next) => {
-  res.redirect('/all');
+  res.redirect('./all');
+});
+
+router.get('/item', (req, res, next) => {
+  res.redirect('./all');
+});
+
+router.get('/category', (req, res, next) => {
+  res.redirect('./category/all');
 });
 
 /* Items */
