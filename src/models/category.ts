@@ -19,7 +19,7 @@ const categorySchema = new Schema<ICategory>({
 });
 
 categorySchema.virtual('url').get(function () {
-  return `/catalog/categories/${this._id}`;
+  return `/catalog/category/${this._id}`;
 });
 
 const Category = model<ICategory>('Category', categorySchema);
