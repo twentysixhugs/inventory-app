@@ -1,9 +1,10 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Types } from 'mongoose';
 
-interface ICategory {
+export interface ICategory {
+  _id?: Types.ObjectId;
   name: string;
   description: string;
-  url: string;
+  url?: string;
 }
 
 const categorySchema = new Schema<ICategory>({

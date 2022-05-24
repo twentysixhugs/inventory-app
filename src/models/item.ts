@@ -1,12 +1,15 @@
-import { Schema, model, Types } from 'mongoose';
+import mongoose, { Schema, model, Types } from 'mongoose';
+import { ICategory } from './category';
 
-interface IItem {
+export interface IItem {
+  _id?: Types.ObjectId;
   name: string;
   description: string;
   price: number;
   numberInStock: number;
-  category: Types.ObjectId;
-  url: string;
+  category: Types.ObjectId | mongoose.Document<unknown, any, ICategory>;
+
+  url?: string;
 }
 
 const itemSchema = new Schema({
