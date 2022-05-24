@@ -1,0 +1,16 @@
+extends layout 
+
+block content 
+  h1= title + category.name
+  a(href=`/catalog/items/create?category=${category._id}`) Add new item
+  a(href='/') Home
+  if (categoryItems.length > 0)
+    ul
+      for item in categoryItems 
+        li 
+          a(href=item.url) #{item.name}
+          span #{item.description}
+          span $#{item.price} 
+          span In stock: #{item.numberInStock} 
+  else
+    span There are no items

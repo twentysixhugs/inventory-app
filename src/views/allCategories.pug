@@ -1,0 +1,14 @@
+extends layout 
+
+block content 
+  h1= title 
+  a(href="/catalog/category/create") Add new category
+  a(href='/') Home
+    if (allCategories.length > 0)
+      ul
+        for category in allCategories
+          li 
+            a(href=category.url) #{category.name}
+            span #{category.description}
+    else
+      span There are no categories

@@ -1,5 +1,5 @@
-import Item, { IItem } from 'src/models/item';
-import Category, { ICategory } from 'src/models/category';
+import Item, { IItem } from '../models/item';
+import Category, { ICategory } from '../models/category';
 
 import async from 'async';
 
@@ -7,12 +7,42 @@ import { ControllerFn } from 'src/types';
 
 /* Show all categories */
 const allCategories: ControllerFn = (req, res, next) => {
-  res.send('Not implemented: categoryList');
+  Category.find({}).exec((err, foundCategories) => {
+    if (err) {
+      return next(err);
+    }
+
+    res.render('allCategories', {
+      title: 'All categories',
+      allCategories: foundCategories,
+    });
+  });
 };
 
 /* Show all items belonging to the category */
 const categoryItems: ControllerFn = (req, res, next) => {
-  res.send('Not implemented: categoryItems');
+  async.parallel(
+    {
+      categoryItems: (callback) => {
+        Item.find({ category: req.params.id }).exec(callback);
+      },
+      category: (callback) => {
+        Category.findById(req.params.id).exec(callback);
+      },
+    },
+    (err, results) => {
+      if (err) {
+        return next(err);
+      }
+
+      if ('category' in results)
+        res.render('categoryItemsList', {
+          title: 'Category: ',
+          categoryItems: results.categoryItems,
+          category: results.category,
+        });
+    },
+  );
 };
 
 /* Forms GET and POST*/

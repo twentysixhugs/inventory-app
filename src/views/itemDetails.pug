@@ -1,0 +1,11 @@
+extends layout 
+
+block content 
+  h1= title 
+  p= item.description 
+  div
+    p= item.price
+    p In stock: #{item.numberInStock}
+  div
+    a(href="#" onclick="history.go(-1)") Go back
+    a(href="/") Home
