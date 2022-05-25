@@ -5,14 +5,12 @@
     "baseUrl": "./",
     "outDir": "build",
     "removeComments": true,
-    "experimentalDecorators": true,
     "target": "es6",
-    "emitDecoratorMetadata": true,
     "moduleResolution": "node",
-    "importHelpers": true,
     "types": ["node"],
     "typeRoots": ["node_modules/@types"],
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true
   },
   "include": ["./src/**/*.ts"],
   "exclude": ["./src/public/", "node_modules"]
