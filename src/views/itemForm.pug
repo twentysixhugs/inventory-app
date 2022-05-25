@@ -1,0 +1,28 @@
+extends layout 
+block content 
+  form(action="", method="post")
+    div
+      label(for="name") Name
+      input(type="text" name="name" id="name" value=(name ? name : ''))
+    div 
+      label(for="description") Description
+      input(type="text" name="description" id="description" value=(description ? description : ''))
+    div
+      label(for="category") Category
+      select(name="category" id="category")
+        for category in categories
+          if (preselectedCategory == category._id)
+            option(value=category._id selected="true")= category.name
+          else
+            option(value=category._id)= category.name
+
+
+    div
+      label(for="price") Price
+      input(type="number" name="price" id="price" value=(price ? price : ''))
+    div
+      label(for="numberInStock") Number in stock
+      input(type="number" name="numberInStock" id="numberInStock" value=(numberInStock ? numberInStock : ''))
+    div
+      a(href="#" onclick="history.go(-1)") Go back
+      button(type="submit") Submit

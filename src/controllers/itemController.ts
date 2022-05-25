@@ -3,7 +3,27 @@ import Category, { ICategory } from '../models/category';
 
 import async from 'async';
 
-import { ControllerFn, ResponseError } from 'src/types';
+import {
+  AsyncFunctionCallback,
+  ControllerFn,
+  ResponseError,
+} from 'src/types';
+import { body, validationResult } from 'express-validator';
+import { sendValidationError } from './utils';
+
+const validateCategory: ControllerFn = (req, res, next) => {
+  Category.findOne({ _id: req.body.category }).exec((err, result) => {
+    if (err) {
+      next(err);
+    }
+
+    if (!result) {
+      sendValidationError(next);
+    }
+
+    next();
+  });
+};
 
 /* Show all items */
 
@@ -44,16 +64,61 @@ const itemDetails: ControllerFn = (req, res, next) => {
 
 /* Forms GET and POST */
 
-/* Get form for creating a new item */
+/* GET form for creating a new item */
 const itemCreateGET: ControllerFn = (req, res, next) => {
-  res.send('Not implemented: itemCreateGET');
-  // Check for req.query. It may contain a category to pre-populate
+  Category.find({}, ['name']).exec((err, foundCategories) => {
+    if (err) {
+      next(err);
+    }
+
+    if (foundCategories.length === 0) {
+      res.render('categoryForm', {
+        redirectFromItemForm: true,
+      });
+    }
+
+    res.render('itemForm', {
+      preselectedCategory: req.query.category,
+      categories: foundCategories,
+    });
+  });
 };
 
 /* Handle POST with form data for creating a new item */
-const itemCreatePOST: ControllerFn = (req, res, next) => {
-  res.send('Not implemented: itemCreatePOST');
-};
+const itemCreatePOST = (() => {
+  const mainRequestHandler: ControllerFn = (req, res, next) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      sendValidationError(next);
+    }
+
+    const item = new Item({
+      name: req.body.name,
+      description: req.body.description,
+      price: req.body.price,
+      numberInStock: req.body.numberInStock,
+      category: req.body.category,
+    });
+
+    item.save((err, savedItem) => {
+      if (err) {
+        next(err);
+      }
+
+      res.redirect(savedItem?.url || '/catalog/item/all');
+    });
+  };
+
+  return [
+    validateCategory,
+    body('name').trim().isLength({ min: 1 }).escape(),
+    body('description').trim().isLength({ min: 1 }).escape(),
+    body('price').trim().isNumeric().escape(),
+    body('numberInStock').trim().isNumeric().escape(),
+    mainRequestHandler,
+  ];
+})();
 
 const itemDeletePOST: ControllerFn = (req, res, next) => {
   res.send('Not implemented: itemDeletePOST');
