@@ -1,6 +1,8 @@
 import Item, { IItem } from '../models/item';
 import Category, { ICategory } from '../models/category';
 
+import { sendValidationError } from './utils';
+
 import async from 'async';
 import { body, validationResult } from 'express-validator';
 
@@ -59,9 +61,7 @@ const categoryCreatePOST = (() => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      const err: ResponseError = new Error('403: Validation error');
-      err.status = 403;
-      next(err);
+      sendValidationError(next);
     }
 
     const category = new Category({
@@ -113,9 +113,7 @@ const categoryUpdatePOST = (() => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      const err: ResponseError = new Error('403: Validation error');
-      err.status = 403;
-      next(err);
+      sendValidationError(next);
     }
 
     const updatedCategory = new Category({
