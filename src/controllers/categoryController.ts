@@ -15,7 +15,7 @@ const allCategories: ControllerFn = (req, res, next) => {
       return next(err);
     }
 
-    res.render('allCategories', {
+    res.render('./category/allCategories', {
       title: 'All categories',
       allCategories: foundCategories,
     });
@@ -39,7 +39,7 @@ const categoryItems: ControllerFn = (req, res, next) => {
       }
 
       if ('category' in results)
-        res.render('categoryItemsList', {
+        res.render('./category/categoryItemsList', {
           title: 'Category: ',
           categoryItems: results.categoryItems,
           category: results.category,
@@ -52,7 +52,7 @@ const categoryItems: ControllerFn = (req, res, next) => {
 
 /* Get form for creating a new category */
 const categoryCreateGET: ControllerFn = (req, res, next) => {
-  res.render('categoryForm');
+  res.render('./category/categoryForm');
 };
 
 /* Handle POST with form data for creating a new category */
@@ -105,7 +105,7 @@ const categoryUpdateGET: ControllerFn = (req, res, next) => {
       return next(err);
     }
 
-    res.render('categoryForm', {
+    res.render('./category/categoryForm', {
       name: foundCategory?.name,
       description: foundCategory?.description,
     });

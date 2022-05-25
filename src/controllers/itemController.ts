@@ -33,7 +33,10 @@ const allItems: ControllerFn = (req, res, next) => {
       return next(err);
     }
 
-    res.render('allItems', { title: 'All items', allItems: foundItems });
+    res.render('./item/allItems', {
+      title: 'All items',
+      allItems: foundItems,
+    });
   });
 };
 
@@ -53,7 +56,7 @@ const itemDetails: ControllerFn = (req, res, next) => {
       return next(error);
     }
 
-    res.render('itemDetails', {
+    res.render('./item/itemDetails', {
       title: (foundItem as unknown as IItem).name,
       item: foundItem,
     });
@@ -70,12 +73,12 @@ const itemCreateGET: ControllerFn = (req, res, next) => {
     }
 
     if (foundCategories.length === 0) {
-      res.render('categoryForm', {
+      res.render('./category/categoryForm', {
         redirectFromItemForm: true,
       });
     }
 
-    res.render('itemForm', {
+    res.render('./item/itemForm', {
       preselectedCategory: req.query.category,
       categories: foundCategories,
     });
@@ -150,7 +153,7 @@ const itemUpdateGET: ControllerFn = (req, res, next) => {
         next(err);
       }
 
-      res.render('itemForm', {
+      res.render('./item/itemForm', {
         name: (results as ItemResult).item.name,
         description: (results as ItemResult).item.description,
         numberInStock: (results as ItemResult).item.numberInStock,
