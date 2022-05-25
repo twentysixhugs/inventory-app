@@ -135,12 +135,74 @@ const itemDeletePOST: ControllerFn = (req, res, next) => {
 };
 
 const itemUpdateGET: ControllerFn = (req, res, next) => {
-  res.send('Not implemented: itemUpdateGET');
+  async.parallel(
+    {
+      item: (cb) => {
+        Item.findById(req.params.id).exec(cb);
+      },
+      allCategories: (cb) => {
+        Category.find({}, ['name']).exec(cb);
+      },
+    },
+    (err, results) => {
+      type ItemResult = async.Dictionary<IItem>;
+      type CategoryResult = async.Dictionary<ICategory>;
+
+      if (err) {
+        next(err);
+      }
+
+      res.render('itemForm', {
+        name: (results as ItemResult).item.name,
+        description: (results as ItemResult).item.description,
+        numberInStock: (results as ItemResult).item.numberInStock,
+        price: (results as ItemResult).item.price,
+        preselectedCategory: (results as ItemResult).item.category,
+        categories: (results as CategoryResult).allCategories,
+      });
+    },
+  );
 };
 
-const itemUpdatePOST: ControllerFn = (req, res, next) => {
-  res.send('Not implemented: itemUpdatePOST');
-};
+const itemUpdatePOST = (() => {
+  const mainRequestHandler: ControllerFn = (req, res, next) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      sendValidationError(next);
+    }
+
+    const updatedItem = new Item({
+      name: req.body.name,
+      description: req.body.description,
+      price: req.body.price,
+      numberInStock: req.body.numberInStock,
+      category: req.body.category,
+      _id: req.params.id,
+    });
+
+    Item.findByIdAndUpdate(req.params.id, updatedItem).exec(
+      (err, itemAfterUpdate) => {
+        if (err) {
+          next(err);
+        }
+
+        if (!res.headersSent) {
+          res.redirect(itemAfterUpdate?.url || '/catalog/all');
+        }
+      },
+    );
+  };
+
+  return [
+    validateCategory,
+    body('name').trim().isLength({ min: 1 }).escape(),
+    body('description').trim().isLength({ min: 1 }).escape(),
+    body('price').trim().isNumeric().escape(),
+    body('numberInStock').trim().isNumeric().escape(),
+    mainRequestHandler,
+  ];
+})();
 
 export {
   allItems,
