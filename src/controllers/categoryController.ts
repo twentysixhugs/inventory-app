@@ -127,13 +127,15 @@ const categoryUpdatePOST = (() => {
     });
 
     Category.findByIdAndUpdate(req.params.id, updatedCategory).exec(
-      (err, foundCategory) => {
+      (err, categoryAfterUpdate) => {
         if (err) {
           next(err);
         }
 
         if (!res.headersSent) {
-          res.redirect(foundCategory?.url || '/catalog/category/all');
+          res.redirect(
+            categoryAfterUpdate?.url || '/catalog/category/all',
+          );
         }
       },
     );
