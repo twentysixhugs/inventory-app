@@ -50,7 +50,7 @@ const categoryItems: ControllerFn = (req, res, next) => {
 
 /* Get form for creating a new category */
 const categoryCreateGET: ControllerFn = (req, res, next) => {
-  res.render('newCategory');
+  res.render('categoryForm');
 };
 
 /* Handle POST with form data for creating a new category */
@@ -59,10 +59,9 @@ const categoryCreatePOST = (() => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      console.log(errors);
       const err: ResponseError = new Error('403: Validation error');
       err.status = 403;
-      throw err;
+      next(err);
     }
 
     const category = new Category({
@@ -80,29 +79,68 @@ const categoryCreatePOST = (() => {
   };
 
   return [
-    body('name', 'Name must not be empty')
-      .trim()
-      .isLength({ min: 1 })
-      .escape(),
-    body('description', 'Description must not be empty')
-      .trim()
-      .escape()
-      .isLength({ min: 1 }),
+    body('name').trim().isLength({ min: 1 }).escape(),
+    body('description').trim().escape().isLength({ min: 1 }),
     mainRequestHandler,
   ];
 })();
 
 const categoryDeletePOST: ControllerFn = (req, res, next) => {
-  res.send('Not implemented: categoryDeletePOST');
+  Category.findByIdAndDelete(req.params.id).exec((err) => {
+    if (err) {
+      next(err);
+    }
+
+    res.redirect('/catalog/category/all');
+  });
 };
 
 const categoryUpdateGET: ControllerFn = (req, res, next) => {
-  res.send('Not implemented: categoryUpdateGET');
+  Category.findById(req.params.id).exec((err, foundCategory) => {
+    if (err) {
+      return next(err);
+    }
+
+    res.render('categoryForm', {
+      name: foundCategory?.name,
+      description: foundCategory?.description,
+    });
+  });
 };
 
-const categoryUpdatePOST: ControllerFn = (req, res, next) => {
-  res.send('Not implemented: categoryUpdatePOST');
-};
+const categoryUpdatePOST = (() => {
+  const mainRequestHandler: ControllerFn = (req, res, next) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      const err: ResponseError = new Error('403: Validation error');
+      err.status = 403;
+      next(err);
+    }
+
+    const updatedCategory = new Category({
+      name: req.body.name,
+      description: req.body.description,
+      _id: req.params.id,
+    });
+
+    Category.findByIdAndUpdate(req.params.id, updatedCategory).exec(
+      (err, foundCategory) => {
+        if (err) {
+          next(err);
+        }
+
+        res.redirect(foundCategory?.url || '/catalog/category/all');
+      },
+    );
+  };
+
+  return [
+    body('name').trim().isLength({ min: 1 }).escape(),
+    body('description').trim().escape().isLength({ min: 1 }),
+    mainRequestHandler,
+  ];
+})();
 
 export {
   allCategories,

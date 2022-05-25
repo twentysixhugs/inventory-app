@@ -4,8 +4,8 @@ block content
   form(action="", method="post")
     div
       label(for="name") Name
-      input(type="text" name="name" id="name" value="")
+      input(type="text" name="name" id="name" value=(name ? name : ''))
     div 
       label(for="description") Description
-      input(type="text" name="description" id="description" value="")
+      input(type="text" name="description" id="description" value=(description ? description : ''))
     button(type="submit") Submit
