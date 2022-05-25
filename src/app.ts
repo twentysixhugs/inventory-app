@@ -5,6 +5,7 @@ import * as express from 'express';
 import * as path from 'path';
 import * as cookieParser from 'cookie-parser';
 import * as logger from 'morgan';
+import * as compression from 'compression';
 import mongoose from 'mongoose';
 
 import indexRouter from './routes/index';
@@ -30,7 +31,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// routers setup
+// routes setup
+app.use(compression());
 app.use('/', indexRouter);
 app.use('/catalog', catalogRouter);
 
