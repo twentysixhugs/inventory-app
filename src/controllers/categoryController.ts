@@ -81,8 +81,8 @@ const categoryCreatePOST = (() => {
   };
 
   return [
-    body('name').trim().isLength({ min: 1 }).escape(),
-    body('description').trim().escape().isLength({ min: 1 }),
+    body('name').trim().isLength({ min: 1 }),
+    body('description').trim().isLength({ min: 1 }),
     mainRequestHandler,
   ];
 })();
@@ -142,8 +142,8 @@ const categoryUpdatePOST = (() => {
   };
 
   return [
-    body('name').trim().isLength({ min: 1 }).escape(),
-    body('description').trim().escape().isLength({ min: 1 }),
+    body('name').trim().isLength({ min: 1 }),
+    body('description').trim().isLength({ min: 1 }),
     mainRequestHandler,
   ];
 })();

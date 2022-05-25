@@ -115,10 +115,10 @@ const itemCreatePOST = (() => {
 
   return [
     validateCategory,
-    body('name').trim().isLength({ min: 1 }).escape(),
-    body('description').trim().isLength({ min: 1 }).escape(),
-    body('price').trim().isNumeric().escape(),
-    body('numberInStock').trim().isNumeric().escape(),
+    body('name').trim().isLength({ min: 1 }),
+    body('description').trim().isLength({ min: 1 }),
+    body('price').trim().isNumeric(),
+    body('numberInStock').trim().isNumeric(),
     mainRequestHandler,
   ];
 })();
@@ -197,10 +197,10 @@ const itemUpdatePOST = (() => {
 
   return [
     validateCategory,
-    body('name').trim().isLength({ min: 1 }).escape(),
-    body('description').trim().isLength({ min: 1 }).escape(),
-    body('price').trim().isNumeric().escape(),
-    body('numberInStock').trim().isNumeric().escape(),
+    body('name').trim().isLength({ min: 1 }),
+    body('description').trim().isLength({ min: 1 }),
+    body('price').trim().isNumeric(),
+    body('numberInStock').trim().isNumeric(),
     mainRequestHandler,
   ];
 })();
