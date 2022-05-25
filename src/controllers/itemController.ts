@@ -121,7 +121,13 @@ const itemCreatePOST = (() => {
 })();
 
 const itemDeletePOST: ControllerFn = (req, res, next) => {
-  res.send('Not implemented: itemDeletePOST');
+  Item.findByIdAndDelete(req.params.id).exec((err) => {
+    if (err) {
+      next(err);
+    }
+
+    res.redirect('/catalog/all');
+  });
 };
 
 const itemUpdateGET: ControllerFn = (req, res, next) => {
