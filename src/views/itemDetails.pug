@@ -6,8 +6,10 @@ block content
   div
     p= item.price
     p In stock: #{item.numberInStock}
+  a(href=`./${item._id}/update`) Update
+  form.inline(method="post" action=`./${item._id}/delete`)
+    button(type="submit") Delete
   div
     a(href="#" onclick="history.go(-1)") Go back
     a(href="/") Home
-  form.inline(method="post" action=`./${item._id}/delete`)
-    button(type="submit") Delete
+
