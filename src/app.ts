@@ -6,12 +6,30 @@ import * as path from 'path';
 import * as cookieParser from 'cookie-parser';
 import * as logger from 'morgan';
 import * as compression from 'compression';
+import * as helmet from 'helmet';
 import mongoose from 'mongoose';
 
 import indexRouter from './routes/index';
 import catalogRouter from './routes/catalog';
 
+// set up app and helmet
 const app = express();
+
+app.use(helmet.contentSecurityPolicy());
+app.use(helmet.crossOriginEmbedderPolicy());
+app.use(helmet.crossOriginOpenerPolicy());
+app.use(helmet.crossOriginResourcePolicy());
+app.use(helmet.dnsPrefetchControl());
+app.use(helmet.expectCt());
+app.use(helmet.frameguard());
+app.use(helmet.hidePoweredBy());
+app.use(helmet.hsts());
+app.use(helmet.ieNoOpen());
+app.use(helmet.noSniff());
+app.use(helmet.originAgentCluster());
+app.use(helmet.permittedCrossDomainPolicies());
+app.use(helmet.referrerPolicy());
+app.use(helmet.xssFilter());
 
 // database setup
 const mongoDB: string = String(process.env.MONGODBURI);
