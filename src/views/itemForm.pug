@@ -11,12 +11,10 @@ block content
       label(for="category") Category
       select(name="category" id="category")
         for category in categories
-          if (preselectedCategory == category._id)
+          if (String(preselectedCategory) === String(category._id))
             option(value=category._id selected="true")= category.name
           else
             option(value=category._id)= category.name
-
-
     div
       label(for="price") Price
       input(type="number" name="price" id="price" value=(price ? price : ''))
