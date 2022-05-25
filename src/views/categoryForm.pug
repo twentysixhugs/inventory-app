@@ -7,10 +7,10 @@ block content
       input(type="hidden" name="redirectTo" value="/catalog/item/create")
     div
       label(for="name") Name
-      input(type="text" name="name" id="name" value=(name ? name : ''))
+      input(type="text" required="" name="name" id="name" value=(name ? name : ''))
     div 
       label(for="description") Description
-      input(type="text" name="description" id="description" value=(description ? description : ''))
+      input(type="text" required="" name="description" id="description" value=(description ? description : ''))
     div
       a(href="#" onclick="history.go(-1)") Go back
       button(type="submit") Submit
