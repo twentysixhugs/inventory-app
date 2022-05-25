@@ -53,8 +53,6 @@ const itemDetails: ControllerFn = (req, res, next) => {
       return next(error);
     }
 
-    console.log(foundItem);
-
     res.render('itemDetails', {
       title: (foundItem as unknown as IItem).name,
       item: foundItem,
