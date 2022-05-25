@@ -9,3 +9,5 @@ block content
   div
     a(href="#" onclick="history.go(-1)") Go back
     a(href="/") Home
+  form.inline(method="post" action=`./${item._id}/delete`)
+    button(type="submit") Delete

@@ -2,8 +2,12 @@ extends layout
 
 block content 
   h1= title + category.name
-  a(href=`/catalog/item/create?category=${category._id}`) Add new item
-  a(href='/') Home
+  div
+    a(href=`/catalog/item/create?category=${category._id}`) Add new item
+    a(href='/') Home
+  form.inline(method="post" action=`./${category._id}/delete`)
+    button(type="submit") Delete
+
   if (categoryItems.length > 0)
     ul
       for item in categoryItems 
