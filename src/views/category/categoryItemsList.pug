@@ -8,9 +8,11 @@ block content
     div
       a(href='/') Home
       a(href='/catalog/category/all') All categories
+  hr
   form.inline(method="post" action=`./${category._id}/delete`)
-    button(type="submit") Delete
-  a(href=`/catalog/category/${category._id}/update`) Update
+    button.category-delete(type="submit") Delete category
+  a.update(href=`/catalog/category/${category._id}/update`) Update category
+  hr
 
   if (categoryItems.length > 0)
     ul

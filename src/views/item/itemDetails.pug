@@ -6,7 +6,7 @@ block content
   div
     p= item.price
     p In stock: #{item.numberInStock}
-  a(href=`./${item._id}/update`) Update
+  a.item-update(href=`./${item._id}/update`) Update
   form.inline(method="post" action=`./${item._id}/delete`)
     button(type="submit") Delete
   div

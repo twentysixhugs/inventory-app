@@ -1,9 +1,11 @@
 body {
   padding: 50px;
-  font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
+  font: 16px 'Lucida Grande', Helvetica, Arial, sans-serif;
 }
 
 a {
+  margin-block: 10px;
+  font-size: 18px;
   color: #00b7ff;
 }
 
@@ -16,4 +18,42 @@ input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+}
+
+div {
+  display: flex;
+  flex-flow: column;
+}
+
+.items,
+.category-delete,
+.item-update {
+  margin-right: 10px;
+}
+
+.new-category {
+  margin-left: 10px;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  flex-flow: column;
+  gap: 8px;
+}
+
+button {
+  padding: 0;
+
+  border: none;
+  background: none;
+  color: #00b7ff;
+  font-size: 18px;
+  text-decoration: underline;
+  cursor: pointer;
 }
