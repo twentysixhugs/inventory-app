@@ -92,10 +92,6 @@ const categoryCreatePOST = (() => {
   ];
 })();
 
-const categoryDeleteGET: ControllerFn = (req, res, next) => {
-  res.send('Not implemented: categoryDeleteGET');
-};
-
 const categoryDeletePOST: ControllerFn = (req, res, next) => {
   res.send('Not implemented: categoryDeletePOST');
 };
@@ -113,7 +109,6 @@ export {
   categoryItems,
   categoryCreateGET,
   categoryCreatePOST,
-  categoryDeleteGET,
   categoryDeletePOST,
   categoryUpdateGET,
   categoryUpdatePOST,

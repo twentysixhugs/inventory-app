@@ -55,10 +55,6 @@ const itemCreatePOST: ControllerFn = (req, res, next) => {
   res.send('Not implemented: itemCreatePOST');
 };
 
-const itemDeleteGET: ControllerFn = (req, res, next) => {
-  res.send('Not implemented: itemDeleteGET');
-};
-
 const itemDeletePOST: ControllerFn = (req, res, next) => {
   res.send('Not implemented: itemDeletePOST');
 };
@@ -76,7 +72,6 @@ export {
   itemDetails,
   itemCreateGET,
   itemCreatePOST,
-  itemDeleteGET,
   itemDeletePOST,
   itemUpdateGET,
   itemUpdatePOST,
