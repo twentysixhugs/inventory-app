@@ -74,7 +74,9 @@ const categoryCreatePOST = (() => {
         return next(err);
       }
 
-      res.redirect(category.url || '/catalog/category/all');
+      if (!res.headersSent) {
+        res.redirect(category.url || '/catalog/category/all');
+      }
     });
   };
 
@@ -91,7 +93,9 @@ const categoryDeletePOST: ControllerFn = (req, res, next) => {
       next(err);
     }
 
-    res.redirect('/catalog/category/all');
+    if (!res.headersSent) {
+      res.redirect('/catalog/category/all');
+    }
   });
 };
 
@@ -128,7 +132,9 @@ const categoryUpdatePOST = (() => {
           next(err);
         }
 
-        res.redirect(foundCategory?.url || '/catalog/category/all');
+        if (!res.headersSent) {
+          res.redirect(foundCategory?.url || '/catalog/category/all');
+        }
       },
     );
   };

@@ -106,7 +106,9 @@ const itemCreatePOST = (() => {
         next(err);
       }
 
-      res.redirect(savedItem?.url || '/catalog/item/all');
+      if (!res.headersSent) {
+        res.redirect(savedItem?.url || '/catalog/item/all');
+      }
     });
   };
 
@@ -126,7 +128,9 @@ const itemDeletePOST: ControllerFn = (req, res, next) => {
       next(err);
     }
 
-    res.redirect('/catalog/all');
+    if (!res.headersSent) {
+      res.redirect('/catalog/all');
+    }
   });
 };
 
