@@ -8,6 +8,7 @@ import * as logger from 'morgan';
 import * as compression from 'compression';
 import * as helmet from 'helmet';
 import mongoose from 'mongoose';
+import 'dotenv/config';
 
 import indexRouter from './routes/index';
 import catalogRouter from './routes/catalog';
